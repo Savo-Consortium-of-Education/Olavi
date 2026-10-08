@@ -2,13 +2,28 @@
 require __DIR__ . '/lib/bootstrap.php';
 require_permission('view');
 
+/**
+ * Sallitut vientityypit (?export=...) ja niitä vastaavat tiedostonimet. Tiedostonimi tulee aina tästä taulukosta,
+ * ei koskaan käyttäjän syötteestä, joten se ei voi sisältää esim. rivinvaihtoja (HTTP-otsakkeen injektio).
+ */
+const EXPORT_FILENAMES = [
+    'vat' => 'alv_ilmoitus.csv',
+    'tax' => 'veroilmoitus.csv',
+];
+
 $message = '';
 
 if (isset($_GET['export'])) {
     require_permission('export');
 
+    // Vain tunnetut arvot hyväksytään (tarkka, kirjainkoosta riippuva vertailu). Mikä tahansa muu arvo, myös tyhjä tai
+    // taulukkomuotoinen (?export[]=vat), hylätään virheellä 400 eikä mitään tietoja lähetetä.
     $type = $_GET['export'];
-    $filename = ($type == 'vat') ? 'alv_ilmoitus.csv' : 'veroilmoitus.csv';
+    if (!is_string($type) || !array_key_exists($type, EXPORT_FILENAMES)) {
+        auth_log('export_rejected', current_user()['username']);
+        render_error_page(400, 'Virheellinen vientipyyntö', 'Tuntematon vientityyppi. Käytä sivun CSV-vientipainikkeita.');
+    }
+    $filename = EXPORT_FILENAMES[$type];
 
     header('Content-Type: text/csv');
     header('Content-Disposition: attachment; filename="' . $filename . '"');

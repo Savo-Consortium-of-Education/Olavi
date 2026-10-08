@@ -80,7 +80,8 @@ Jos kontit on luotu ennen kirjautumisen lisäämistä, tietokanta on päivitett�
 ### Veroilmoitukset
 - **ALV-ilmoitus**: ALV-tiedot ja summat
 - **Veroilmoitus**: Verotettava tulo
-- **CSV-vienti**: Vie tiedot CSV-muodossa
+- **CSV-vienti**: Vie tiedot CSV-muodossa (`?export=vat` tai `?export=tax`). Vientityyppi validoidaan: vain nämä kaksi
+  arvoa hyväksytään, ja mikä tahansa muu arvo antaa virheen HTTP 400 eikä mitään tietoja lähetetä
 
 ## Kirjautuminen ja käyttäjät
 
