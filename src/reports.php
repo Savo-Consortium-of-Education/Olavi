@@ -1,5 +1,6 @@
 <?php
-require 'config.php';
+require __DIR__ . '/lib/bootstrap.php';
+require_permission('view');
 
 // Profitability
 $stmt = $pdo->query("SELECT SUM(CASE WHEN type='income' THEN amount ELSE 0 END) as total_income, SUM(CASE WHEN type='expense' THEN amount ELSE 0 END) as total_expense FROM transactions");
@@ -21,44 +22,35 @@ for ($q = 1; $q <= 4; $q++) {
     $stmt->execute([$start_month, $end_month]);
     $quarters[$q] = $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+render_header('Raportit', 'reports');
 ?>
-<!DOCTYPE html>
-<html lang="fi">
-<head>
-    <meta charset="UTF-8">
-    <title>Raportit</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-    </style>
-</head>
-<body>
-    <h1>Raportit</h1>
-    <a href="index.php">Takaisin kotiin</a>
-
-    <h2>Yrityksen kannattavuus</h2>
-    <p>Kokonais tulot: <?php echo number_format($total_income, 2); ?> €</p>
-    <p>Kokonais menot: <?php echo number_format($total_expense, 2); ?> €</p>
-    <p>Voittomarginaali: <?php echo number_format($profit, 2); ?> €</p>
-
-    <h2>Kvartaaliraportit</h2>
-    <table>
-        <tr>
-            <th>Kvartaali</th>
-            <th>Tulot</th>
-            <th>Menot</th>
-            <th>Voittomarginaali</th>
-        </tr>
-        <?php foreach ($quarters as $q => $data): ?>
-        <tr>
-            <td>Q<?php echo $q; ?></td>
-            <td><?php echo number_format($data['income'] ?? 0, 2); ?> €</td>
-            <td><?php echo number_format($data['expense'] ?? 0, 2); ?> €</td>
-            <td><?php echo number_format(($data['income'] ?? 0) - ($data['expense'] ?? 0), 2); ?> €</td>
-        </tr>
+    <h2 class="section-title">Kvartaaliraportit</h2>
+    <section class="cards" aria-label="Kvartaaliraportit">
+        <?php foreach ($quarters as $q => $data):
+            $income = $data['income'] ?? 0;
+            $expense = $data['expense'] ?? 0;
+        ?>
+        <article class="card">
+            <h3 class="card-label">Q<?= e($q) ?></h3>
+            <dl class="card-details">
+                <div><dt>Tulot</dt><dd><?= e(format_eur($income)) ?></dd></div>
+                <div><dt>Menot</dt><dd><?= e(format_eur($expense)) ?></dd></div>
+                <div><dt>Voittomarginaali</dt><dd><?= e(format_eur($income - $expense)) ?></dd></div>
+            </dl>
+        </article>
         <?php endforeach; ?>
-    </table>
-</body>
-</html>
+    </section>
+
+    <section class="panel" aria-labelledby="profit-heading">
+        <h2 id="profit-heading">Yrityksen kannattavuus</h2>
+        <div class="cards">
+            <?php
+            render_stat_card('Kokonais tulot', format_eur($total_income));
+            render_stat_card('Kokonais menot', format_eur($total_expense));
+            render_stat_card('Voittomarginaali', format_eur($profit), $profit < 0 ? 'negative' : '');
+            ?>
+        </div>
+    </section>
+<?php
+render_footer();

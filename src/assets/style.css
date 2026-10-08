@@ -1,0 +1,676 @@
+/* ==========================================================================
+   Pienyrityksen Taloushallinto - jaetut tyylit
+   Värit ja muodot on johdettu design/logo.svg- ja design/wireframe_allpages.svg-tiedostoista.
+   Ei ulkoisia kirjastoja: kaikki tyylit ovat tässä yhdessä tiedostossa.
+   ========================================================================== */
+
+/* --- Suunnittelutunnukset (design tokens) --------------------------------- */
+:root {
+    --brand: #2d6cdf;          /* logon ja navigaation sininen */
+    --brand-dark: #1f56bf;     /* hover- ja aktiivitilat */
+    --brand-light: #6bb7ff;    /* logon liukuvärin vaalea pää */
+    --page-bg: #f5f6fb;        /* sivun tausta (wireframe) */
+    --surface: #ffffff;
+    --surface-alt: #f8f9fc;    /* paneelin ja rivin hover-tausta */
+    --card-bg: #eef3ff;        /* tunnuslukukortti */
+    --table-head: #e7eefc;     /* taulukon otsikkorivi */
+    --border: #d1d7e0;
+    --border-soft: #d7dbe8;
+    --input-border: #c4cddf;
+    --heading: #2b3a67;        /* otsikot */
+    --text: #1f2a44;           /* leipäteksti */
+    --label: #3a4d82;          /* kenttien nimet ja kortin otsikko */
+    --muted: #5a6a8f;          /* toissijainen teksti */
+
+    --success: #17653f;
+    --success-bg: #e6f4ec;
+    --success-border: #b9dfc9;
+    --danger: #a4262c;
+    --danger-bg: #fdecea;
+    --danger-border: #f2b8b5;
+
+    --radius-sm: 10px;
+    --radius: 16px;
+    --shadow: 0 1px 2px rgba(43, 58, 103, 0.08), 0 4px 12px rgba(43, 58, 103, 0.06);
+
+    --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* --- Perusasetukset -------------------------------------------------------- */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font);
+    font-size: 1rem;
+    line-height: 1.55;
+    color: var(--text);
+    background: var(--page-bg);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    color: var(--brand-dark);
+}
+
+h1, h2, h3 {
+    color: var(--heading);
+    line-height: 1.25;
+}
+
+h1 {
+    margin: 0.5rem 0 1.25rem;
+    font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2rem);
+}
+
+h2 {
+    margin: 0 0 1rem;
+    font-size: 1.25rem;
+}
+
+h3 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.muted {
+    color: var(--muted);
+}
+
+/* Yleinen tarkennusrengas näppäimistökäyttäjille. */
+:focus-visible {
+    outline: 3px solid var(--brand);
+    outline-offset: 2px;
+}
+
+/* --- Asettelu -------------------------------------------------------------- */
+.container {
+    width: min(100% - 2rem, 70rem);
+    margin-inline: auto;
+}
+
+main {
+    padding-block: 0.5rem 2.5rem;
+}
+
+.skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -4rem;
+    z-index: 100;
+    padding: 0.6rem 1rem;
+    background: var(--surface);
+    border: 2px solid var(--brand);
+    border-radius: var(--radius-sm);
+}
+
+.skip-link:focus {
+    top: 1rem;
+}
+
+/* --- Yläpalkki ja navigaatio ---------------------------------------------- */
+.site-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+}
+
+.header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    padding-block: 0.75rem;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.brand-logo {
+    border-radius: 10px;
+}
+
+.main-nav {
+    margin-block: 0 1rem;
+    padding: 0.35rem;
+    background: var(--brand);
+    border-radius: var(--radius-sm);
+}
+
+.main-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.main-nav a {
+    display: block;
+    padding: 0.6rem 1rem;
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.main-nav a:hover {
+    background: var(--brand-dark);
+}
+
+.main-nav a[aria-current="page"] {
+    background: #ffffff;
+    color: var(--brand-dark);
+}
+
+.main-nav a:focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: -3px;
+}
+
+.main-nav a[aria-current="page"]:focus-visible {
+    outline-color: var(--brand-dark);
+}
+
+/* --- Tunnuslukukortit ------------------------------------------------------ */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.panel .cards {
+    margin-bottom: 0;
+}
+
+.card {
+    padding: 1rem 1.25rem;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+}
+
+.card-label {
+    margin: 0 0 0.25rem;
+    color: var(--label);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.card-value {
+    color: var(--heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.card-value--negative {
+    color: var(--danger);
+}
+
+.card-details {
+    display: grid;
+    gap: 0.35rem;
+    margin: 0.5rem 0 0;
+}
+
+.card-details div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.card-details dt {
+    color: var(--label);
+}
+
+.card-details dd {
+    margin: 0;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+/* --- Paneelit -------------------------------------------------------------- */
+.panel {
+    margin-bottom: 1.5rem;
+    padding: 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.section-title {
+    margin-top: 0;
+}
+
+/* --- Taulukot -------------------------------------------------------------- */
+.table-wrap {
+    overflow-x: auto;
+}
+
+.data {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.data th {
+    padding: 0.65rem 0.85rem;
+    background: var(--table-head);
+    color: var(--label);
+    font-size: 0.875rem;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.data th:first-child {
+    border-top-left-radius: 8px;
+}
+
+.data th:last-child {
+    border-top-right-radius: 8px;
+}
+
+.data td {
+    padding: 0.7rem 0.85rem;
+    border-bottom: 1px solid var(--border-soft);
+    vertical-align: top;
+}
+
+.data tbody tr:hover {
+    background: var(--surface-alt);
+}
+
+.data .num {
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.1rem 0.65rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+.badge--income {
+    background: var(--success-bg);
+    color: var(--success);
+}
+
+.badge--expense {
+    background: var(--danger-bg);
+    color: var(--danger);
+}
+
+/* --- Lomakkeet ------------------------------------------------------------- */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 1.5rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.field--wide {
+    grid-column: 1 / -1;
+}
+
+.field label {
+    color: var(--label);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 0.65rem 0.8rem;
+    font: inherit;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius-sm);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--brand);
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+/* --- Painikkeet ------------------------------------------------------------ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0.65rem 1.25rem;
+    font: inherit;
+    font-weight: 600;
+    color: #ffffff;
+    text-decoration: none;
+    background: var(--brand);
+    border: 1px solid var(--brand);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: var(--brand-dark);
+    border-color: var(--brand-dark);
+}
+
+.btn--secondary {
+    color: var(--brand-dark);
+    background: var(--surface);
+    border-color: var(--input-border);
+}
+
+.btn--secondary:hover {
+    color: var(--brand-dark);
+    background: var(--card-bg);
+    border-color: var(--input-border);
+}
+
+.button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+/* --- Ilmoitukset ----------------------------------------------------------- */
+.alert {
+    margin-bottom: 1rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid;
+    border-radius: var(--radius-sm);
+}
+
+.alert--success {
+    color: var(--success);
+    background: var(--success-bg);
+    border-color: var(--success-border);
+}
+
+.alert--error {
+    color: var(--danger);
+    background: var(--danger-bg);
+    border-color: var(--danger-border);
+}
+
+/* --- Alapalkki ------------------------------------------------------------- */
+.site-footer {
+    padding-block: 1.5rem;
+    color: var(--muted);
+    font-size: 0.875rem;
+    border-top: 1px solid var(--border);
+}
+
+/* --- Käyttäjävalikko, kirjautuminen ja käyttäjähallinta ------------------- */
+.user-menu {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    margin-left: auto;
+}
+
+.user-name {
+    color: var(--heading);
+    font-weight: 600;
+}
+
+.user-menu a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: 0.25rem;
+}
+
+.inline-form {
+    margin: 0;
+}
+
+.badge--role {
+    background: var(--card-bg);
+    color: var(--label);
+}
+
+.badge--active {
+    background: var(--success-bg);
+    color: var(--success);
+}
+
+.badge--inactive {
+    background: var(--danger-bg);
+    color: var(--danger);
+}
+
+.user-cell {
+    display: grid;
+    gap: 0.1rem;
+}
+
+.user-cell__name {
+    font-weight: 600;
+}
+
+.user-cell__login {
+    color: var(--muted);
+    font-size: 0.875rem;
+}
+
+.auth-card {
+    max-width: 28rem;
+    margin-inline: auto;
+}
+
+.form-stack {
+    display: grid;
+    gap: 1rem;
+}
+
+.form-hint {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+}
+
+.check {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    cursor: pointer;
+}
+
+.check input[type="checkbox"] {
+    flex: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    min-height: 0;
+    accent-color: var(--brand);
+}
+
+.alert-list {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+/* ==========================================================================
+   Responsiivisuus (puhelin- ja kapeat tablettinäytöt)
+   Yllä olevat tyylit muodostavat työpöytäasettelun. Tässä osiossa asettelu mukautetaan
+   pienemmille näytöille media queryillä. Katkaisukohdat on annettu em-yksiköissä, jolloin
+   ne mukautuvat myös käyttäjän selaimen tekstikokoasetukseen:
+     45em (~720 px)  puhelin ja kapea ikkuna: navigaatio ruudukkoon, lomake yhteen
+                     sarakkeeseen ja taulukko korttilistaksi (taulukko tarvitsee noin
+                     590 px, joten tätä leveämmällä näytöllä se mahtuu sellaisenaan)
+     21em (~336 px)  erittäin kapea näyttö (esim. iPhone SE 1. sukupolvi, taittuvan puhelimen
+                     kansinäyttö): korttilistassa sarakkeen nimi on arvon yläpuolella
+   Viewport-metatieto (width=device-width) on määritelty sivupohjassa, src/lib/layout.php.
+   ========================================================================== */
+
+/* Kosketuskohteen vähimmäiskorkeus on noin 44 px (WCAG 2.5.5 -suositus). min-width: 0 estää
+   kenttiä venyttämästä lomakeruudukkoa (esim. date-kenttä joillakin mobiiliselaimilla). */
+input,
+select,
+textarea {
+    min-width: 0;
+    min-height: 2.75rem;
+}
+
+/* Pitkä sana ilman välilyöntejä (esim. kuvaus) ei saa venyttää sivua näyttöä leveämmäksi.
+   Katkaisu sallitaan vain soluissa, joissa tekstiä voi olla paljon (cell-wrap): muuten taulukko
+   katkoisi myös päivämääriä ja tyyppimerkkejä, koska overflow-wrap periytyy sisältöön. */
+.cell-wrap,
+.alert {
+    overflow-wrap: anywhere;
+}
+
+/* Kortin rivin arvo siirtyy nimen alle, jos ne eivät mahdu samalle riville. */
+.card-details div {
+    flex-wrap: wrap;
+}
+
+.card-details dd {
+    margin-left: auto;
+}
+
+@media (max-width: 45em) {
+    .panel {
+        padding: 1rem;
+    }
+
+    /* Navigaatio: linkit tasaleveään ruudukkoon, jossa on enintään kaksi saraketta (kapeimmalla
+       näytöllä yksi), jolloin jokainen kohde on helppo painaa eikä rivitys jää epätasaiseksi. */
+    .main-nav ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(max(9rem, calc(50% - 0.5rem)), 1fr));
+    }
+
+    .main-nav a {
+        padding-inline: 0.5rem;
+        text-align: center;
+    }
+
+    /* Käyttäjävalikko omalle rivilleen logon alle. */
+    .user-menu {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    /* Nimi ja rooli omalle rivilleen; Oma tili -linkki ja Kirjaudu ulos -painike jäävät vierekkäin sen alle. */
+    .user-name {
+        flex: 1 1 100%;
+    }
+
+    /* Pariton viimeinen valikkokohta (esim. Käyttäjät) täyttää koko rivin. */
+    .main-nav li:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+    }
+
+    /* Lomake yhteen sarakkeeseen ja painikkeet koko leveydelle. */
+    .form-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .form-actions .btn,
+    .button-row .btn {
+        flex: 1 1 100%;
+    }
+
+    /* Taulukko -> korttilista (vain taulukot, joilla on luokka data--stack): jokainen rivi on oma
+       korttinsa, ja jokaisen solun eteen tulee sarakkeen nimi data-label-attribuutista. */
+    .data--stack,
+    .data--stack tbody,
+    .data--stack tr,
+    .data--stack td {
+        display: block;
+    }
+
+    /* Otsikkorivi piilotetaan vain visuaalisesti, jotta sarakkeiden nimet jäävät apuvälineiden luettaviksi. */
+    .data--stack thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    .data--stack tr {
+        margin-bottom: 0.75rem;
+        padding: 0.25rem 0.9rem;
+        background: var(--surface-alt);
+        border: 1px solid var(--border-soft);
+        border-radius: var(--radius-sm);
+    }
+
+    .data--stack td {
+        display: grid;
+        grid-template-columns: minmax(6.5rem, min(38%, 10rem)) minmax(0, 1fr);
+        align-items: baseline;
+        gap: 0 1rem;
+        padding: 0.5rem 0;
+    }
+
+    .data--stack td:last-child {
+        border-bottom: 0;
+    }
+
+    .data--stack td::before {
+        content: attr(data-label);
+        color: var(--label);
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+
+    .data--stack td > * {
+        justify-self: start;
+    }
+
+    .data--stack .num {
+        text-align: left;
+    }
+}
+
+/* Erittäin kapea näyttö: sarakkeen nimi arvon yläpuolelle, jotta arvolle jää koko kortin leveys. */
+@media (max-width: 21em) {
+    .data--stack td {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

@@ -1,11 +1,29 @@
 <?php
-require 'config.php';
+require __DIR__ . '/lib/bootstrap.php';
+require_permission('view');
+
+/**
+ * Sallitut vientityypit (?export=...) ja niitä vastaavat tiedostonimet. Tiedostonimi tulee aina tästä taulukosta,
+ * ei koskaan käyttäjän syötteestä, joten se ei voi sisältää esim. rivinvaihtoja (HTTP-otsakkeen injektio).
+ */
+const EXPORT_FILENAMES = [
+    'vat' => 'alv_ilmoitus.csv',
+    'tax' => 'veroilmoitus.csv',
+];
 
 $message = '';
 
 if (isset($_GET['export'])) {
+    require_permission('export');
+
+    // Vain tunnetut arvot hyväksytään (tarkka, kirjainkoosta riippuva vertailu). Mikä tahansa muu arvo, myös tyhjä tai
+    // taulukkomuotoinen (?export[]=vat), hylätään virheellä 400 eikä mitään tietoja lähetetä.
     $type = $_GET['export'];
-    $filename = ($type == 'vat') ? 'alv_ilmoitus.csv' : 'veroilmoitus.csv';
+    if (!is_string($type) || !array_key_exists($type, EXPORT_FILENAMES)) {
+        auth_log('export_rejected', current_user()['username']);
+        render_error_page(400, 'Virheellinen vientipyyntö', 'Tuntematon vientityyppi. Käytä sivun CSV-vientipainikkeita.');
+    }
+    $filename = EXPORT_FILENAMES[$type];
 
     header('Content-Type: text/csv');
     header('Content-Disposition: attachment; filename="' . $filename . '"');
@@ -47,31 +65,42 @@ $total_income = $stmt->fetch(PDO::FETCH_ASSOC)['total'] ?? 0;
 
 $stmt = $pdo->query("SELECT SUM(amount) as total FROM transactions WHERE type='expense'");
 $total_expense = $stmt->fetch(PDO::FETCH_ASSOC)['total'] ?? 0;
+
+$taxable_income = $total_income - $total_expense;
+
+render_header('Veroilmoitukset', 'tax');
 ?>
-<!DOCTYPE html>
-<html lang="fi">
-<head>
-    <meta charset="UTF-8">
-    <title>Veroilmoitukset</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .export-btn { padding: 10px 15px; background: #2196F3; color: white; border: none; cursor: pointer; margin: 5px; }
-    </style>
-</head>
-<body>
-    <h1>Veroilmoitukset</h1>
-    <a href="index.php">Takaisin kotiin</a>
+    <section class="panel" aria-labelledby="vat-heading">
+        <h2 id="vat-heading">ALV-ilmoitus</h2>
+        <div class="cards">
+            <?php
+            render_stat_card('ALV maksettava', format_eur($vat_payable));
+            render_stat_card('ALV vähennettävä', format_eur($vat_deductible));
+            render_stat_card('ALV-saldo', format_eur($vat_balance), $vat_balance < 0 ? 'negative' : '');
+            ?>
+        </div>
+    </section>
 
-    <h2>ALV-ilmoitus</h2>
-    <p>ALV maksettava: <?php echo number_format($vat_payable, 2); ?> €</p>
-    <p>ALV vähennettävä: <?php echo number_format($vat_deductible, 2); ?> €</p>
-    <p>ALV-saldo: <?php echo number_format($vat_balance, 2); ?> €</p>
-    <button class="export-btn" onclick="window.location.href='?export=vat'">Vie ALV-ilmoitus CSV:ään</button>
+    <section class="panel" aria-labelledby="tax-heading">
+        <h2 id="tax-heading">Veroilmoitus</h2>
+        <div class="cards">
+            <?php
+            render_stat_card('Kokonais tulot', format_eur($total_income));
+            render_stat_card('Kokonais menot', format_eur($total_expense));
+            render_stat_card('Verotettava tulo', format_eur($taxable_income), $taxable_income < 0 ? 'negative' : '');
+            ?>
+        </div>
+    </section>
 
-    <h2>Veroilmoitus</h2>
-    <p>Kokonais tulot: <?php echo number_format($total_income, 2); ?> €</p>
-    <p>Kokonais menot: <?php echo number_format($total_expense, 2); ?> €</p>
-    <p>Verotettava tulo: <?php echo number_format($total_income - $total_expense, 2); ?> €</p>
-    <button class="export-btn" onclick="window.location.href='?export=tax'">Vie veroilmoitus CSV:ään</button>
-</body>
-</html>
+    <?php if (user_can('export')): ?>
+    <section class="panel" aria-labelledby="export-heading">
+        <h2 id="export-heading">CSV-viennit</h2>
+        <p class="muted">Lataa tapahtumat CSV-tiedostona verottajalle toimitettavaksi.</p>
+        <div class="button-row">
+            <a class="btn" href="?export=vat">Vie ALV-ilmoitus CSV:ään</a>
+            <a class="btn" href="?export=tax">Vie veroilmoitus CSV:ään</a>
+        </div>
+    </section>
+    <?php endif; ?>
+<?php
+render_footer();
