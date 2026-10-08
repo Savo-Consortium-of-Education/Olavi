@@ -1,0 +1,16 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d6cdf;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6bb7ff;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="40" fill="#eef5ff" />
+  <circle cx="200" cy="140" r="70" fill="url(#grad1)" />
+  <polygon points="170,205 190,165 210,205" fill="#fff" />
+  <rect x="160" y="220" width="20" height="80" rx="10" fill="#2d6cdf" />
+  <rect x="190" y="240" width="20" height="60" rx="10" fill="#4a87e3" />
+  <rect x="220" y="260" width="20" height="40" rx="10" fill="#6ab3ff" />
+  <text x="200" y="350" font-family="Arial, sans-serif" font-size="28" fill="#2d6cdf" text-anchor="middle">Pienyritys</text>
+  <text x="200" y="380" font-family="Arial, sans-serif" font-size="18" fill="#555" text-anchor="middle">Taloushallinto</text>
+</svg>

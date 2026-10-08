@@ -1,0 +1,77 @@
+<svg width="1600" height="1200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="1200" fill="#f5f6fb" />
+  <text x="80" y="60" font-family="Arial, sans-serif" font-size="32" fill="#2b3a67">Pienyrityksen Taloushallinto - Wireframe kaikille sivuille</text>
+
+  <g transform="translate(60,100)">
+    <rect x="0" y="0" width="700" height="500" rx="24" fill="#ffffff" stroke="#d1d7e0" stroke-width="2" />
+    <text x="30" y="40" font-family="Arial, sans-serif" font-size="22" fill="#2b3a67">Koti</text>
+    <rect x="30" y="80" width="640" height="55" rx="12" fill="#2d6cdf" />
+    <text x="40" y="118" font-family="Arial, sans-serif" font-size="18" fill="#ffffff">Navigaatio: Koti | Lisää tapahtuma | Raportit | Veroilmoitukset</text>
+    <rect x="30" y="160" width="200" height="90" rx="16" fill="#eef3ff" />
+    <rect x="260" y="160" width="200" height="90" rx="16" fill="#eef3ff" />
+    <rect x="490" y="160" width="180" height="90" rx="16" fill="#eef3ff" />
+    <text x="45" y="195" font-family="Arial, sans-serif" font-size="14" fill="#3a4d82">Kokonais tulot</text>
+    <text x="270" y="195" font-family="Arial, sans-serif" font-size="14" fill="#3a4d82">Kokonais menot</text>
+    <text x="500" y="195" font-family="Arial, sans-serif" font-size="14" fill="#3a4d82">ALV-saldo</text>
+    <rect x="30" y="280" width="640" height="180" rx="16" fill="#f8f9fc" stroke="#d7dbe8" stroke-width="1" />
+    <text x="40" y="310" font-family="Arial, sans-serif" font-size="18" fill="#2b3a67">Viimeisimmät tapahtumat</text>
+    <rect x="40" y="340" width="620" height="30" rx="8" fill="#e7eefc" />
+    <text x="50" y="360" font-family="Arial, sans-serif" font-size="13" fill="#5a6a8f">Päivämäärä • Tyyppi • Kategoria • Kuvaus • Summa • ALV</text>
+  </g>
+
+  <g transform="translate(860,100)">
+    <rect x="0" y="0" width="700" height="500" rx="24" fill="#ffffff" stroke="#d1d7e0" stroke-width="2" />
+    <text x="30" y="40" font-family="Arial, sans-serif" font-size="22" fill="#2b3a67">Lisää tapahtuma</text>
+    <rect x="30" y="80" width="640" height="55" rx="12" fill="#2d6cdf" />
+    <text x="40" y="118" font-family="Arial, sans-serif" font-size="18" fill="#ffffff">Navigaatio: Koti | Lisää tapahtuma | Raportit | Veroilmoitukset</text>
+    <rect x="30" y="160" width="640" height="280" rx="16" fill="#f8f9fc" stroke="#d7dbe8" stroke-width="1" />
+    <text x="40" y="200" font-family="Arial, sans-serif" font-size="18" fill="#2b3a67">Lomake</text>
+    <rect x="50" y="230" width="240" height="40" rx="10" fill="#ffffff" stroke="#c4cddf" />
+    <text x="60" y="255" font-family="Arial, sans-serif" font-size="14" fill="#5a6a8f">Päivämäärä</text>
+    <rect x="50" y="290" width="240" height="40" rx="10" fill="#ffffff" stroke="#c4cddf" />
+    <text x="60" y="315" font-family="Arial, sans-serif" font-size="14" fill="#5a6a8f">Tyyppi</text>
+    <rect x="50" y="350" width="240" height="40" rx="10" fill="#ffffff" stroke="#c4cddf" />
+    <text x="60" y="375" font-family="Arial, sans-serif" font-size="14" fill="#5a6a8f">Kategoria</text>
+    <rect x="50" y="410" width="240" height="40" rx="10" fill="#ffffff" stroke="#c4cddf" />
+    <text x="60" y="435" font-family="Arial, sans-serif" font-size="14" fill="#5a6a8f">Summa</text>
+    <rect x="320" y="290" width="240" height="40" rx="10" fill="#ffffff" stroke="#c4cddf" />
+    <text x="330" y="315" font-family="Arial, sans-serif" font-size="14" fill="#5a6a8f">Kuvaus</text>
+    <rect x="320" y="350" width="240" height="100" rx="10" fill="#ffffff" stroke="#c4cddf" />
+    <text x="330" y="375" font-family="Arial, sans-serif" font-size="14" fill="#5a6a8f">Lisätiedot</text>
+    <rect x="320" y="460" width="120" height="35" rx="10" fill="#2d6cdf" />
+    <text x="345" y="485" font-family="Arial, sans-serif" font-size="14" fill="#ffffff">Tallenna</text>
+  </g>
+
+  <g transform="translate(60,640)">
+    <rect x="0" y="0" width="700" height="500" rx="24" fill="#ffffff" stroke="#d1d7e0" stroke-width="2" />
+    <text x="30" y="40" font-family="Arial, sans-serif" font-size="22" fill="#2b3a67">Raportit</text>
+    <rect x="30" y="80" width="640" height="55" rx="12" fill="#2d6cdf" />
+    <text x="40" y="118" font-family="Arial, sans-serif" font-size="18" fill="#ffffff">Navigaatio: Koti | Lisää tapahtuma | Raportit | Veroilmoitukset</text>
+    <rect x="30" y="160" width="200" height="90" rx="16" fill="#eef3ff" />
+    <rect x="260" y="160" width="200" height="90" rx="16" fill="#eef3ff" />
+    <rect x="490" y="160" width="180" height="90" rx="16" fill="#eef3ff" />
+    <text x="45" y="195" font-family="Arial, sans-serif" font-size="14" fill="#3a4d82">Q1</text>
+    <text x="275" y="195" font-family="Arial, sans-serif" font-size="14" fill="#3a4d82">Q2</text>
+    <text x="505" y="195" font-family="Arial, sans-serif" font-size="14" fill="#3a4d82">Q3</text>
+    <rect x="30" y="280" width="640" height="180" rx="16" fill="#f8f9fc" stroke="#d7dbe8" stroke-width="1" />
+    <text x="40" y="310" font-family="Arial, sans-serif" font-size="18" fill="#2b3a67">Voittomarginaali</text>
+    <rect x="60" y="350" width="600" height="100" rx="12" fill="#ffffff" stroke="#c4cddf" />
+  </g>
+
+  <g transform="translate(860,640)">
+    <rect x="0" y="0" width="700" height="500" rx="24" fill="#ffffff" stroke="#d1d7e0" stroke-width="2" />
+    <text x="30" y="40" font-family="Arial, sans-serif" font-size="22" fill="#2b3a67">Veroilmoitukset</text>
+    <rect x="30" y="80" width="640" height="55" rx="12" fill="#2d6cdf" />
+    <text x="40" y="118" font-family="Arial, sans-serif" font-size="18" fill="#ffffff">Navigaatio: Koti | Lisää tapahtuma | Raportit | Veroilmoitukset</text>
+    <rect x="30" y="160" width="300" height="90" rx="16" fill="#eef3ff" />
+    <rect x="350" y="160" width="300" height="90" rx="16" fill="#eef3ff" />
+    <text x="45" y="195" font-family="Arial, sans-serif" font-size="14" fill="#3a4d82">ALV maksettava</text>
+    <text x="365" y="195" font-family="Arial, sans-serif" font-size="14" fill="#3a4d82">ALV vähennettävä</text>
+    <rect x="30" y="280" width="620" height="120" rx="16" fill="#f8f9fc" stroke="#d7dbe8" stroke-width="1" />
+    <text x="40" y="310" font-family="Arial, sans-serif" font-size="18" fill="#2b3a67">CSV-viennit</text>
+    <rect x="50" y="340" width="220" height="45" rx="12" fill="#2d6cdf" />
+    <text x="90" y="372" font-family="Arial, sans-serif" font-size="14" fill="#ffffff">Vie ALV-ilmoitus</text>
+    <rect x="300" y="340" width="220" height="45" rx="12" fill="#2d6cdf" />
+    <text x="340" y="372" font-family="Arial, sans-serif" font-size="14" fill="#ffffff">Vie veroilmoitus</text>
+  </g>
+</svg>
