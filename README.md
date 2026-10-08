@@ -19,7 +19,7 @@ Yksinkertainen web-pohjainen taloushallintojärjestelmä pienyrityksille. Ohjelm
 
 - **Backend**: PHP 8.2 (Apache)
 - **Tietokanta**: MySQL 8.0
-- **Frontend**: HTML5, CSS3
+- **Frontend**: HTML5, oma CSS (`src/assets/style.css`), ei ulkoisia kirjastoja
 - **Konttienhallinta**: Docker Compose
 
 ## Asennus ja käynnistys
@@ -67,6 +67,12 @@ docker-compose up -d
 - **Veroilmoitus**: Verotettava tulo
 - **CSV-vienti**: Vie tiedot CSV-muodossa
 
+## Ulkoasu
+
+Käyttöliittymä noudattaa `design/`-kansion logoa ja wireframea (`wireframe_allpages.svg`): sininen navigaatiopalkki,
+yhteenvetokortit ja paneelit. Tyylit on toteutettu omalla CSS:llä (`src/assets/style.css`) ilman ulkoisia kirjastoja,
+jotta sovellus toimii myös ilman verkkoyhteyttä. Värit ja muodot on johdettu logosta ja wireframesta.
+
 ## Tietokannan tunnukset
 
 - **Host**: `db`
@@ -90,12 +96,21 @@ Voit hallita tietokantaa phpMyAdminilla osoitteessa: `http://localhost:8081`
 ├── schema.sql              # Tietokannan rakenne
 ├── plan.md                 # Suunnitelma
 ├── README.md               # Tämä tiedosto
+├── design/
+│   ├── logo.svg            # Sovelluksen logo
+│   └── wireframe_allpages.svg  # Sivujen wireframe (ulkoasun pohja)
 └── src/
     ├── index.php           # Kotisivu
     ├── config.php          # Tietokantakonfiguraatio
     ├── add_transaction.php  # Tapahtumien lisääminen
     ├── reports.php         # Raportit
-    └── tax_reports.php     # Veroilmoitukset
+    ├── tax_reports.php     # Veroilmoitukset
+    ├── assets/
+    │   ├── style.css       # Jaetut tyylit
+    │   └── logo.svg        # Logo (kopio design/-kansiosta)
+    └── lib/
+        ├── helpers.php     # Apufunktiot (HTML-koodaus, muotoilut)
+        └── layout.php      # Jaettu sivupohja (yläpalkki, navigaatio)
 ```
 
 ## Pysäyttäminen

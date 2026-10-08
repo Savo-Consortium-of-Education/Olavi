@@ -1,5 +1,6 @@
 <?php
 require 'config.php';
+require __DIR__ . '/lib/layout.php';
 
 $message = '';
 
@@ -17,54 +18,58 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $message = 'Tapahtuma lisätty onnistuneesti!';
 }
+
+render_header('Lisää tapahtuma', 'add');
 ?>
-<!DOCTYPE html>
-<html lang="fi">
-<head>
-    <meta charset="UTF-8">
-    <title>Lisää tapahtuma</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        form { max-width: 400px; }
-        label { display: block; margin-top: 10px; }
-        input, select { width: 100%; padding: 5px; }
-        button { margin-top: 15px; padding: 10px; background: #4CAF50; color: white; border: none; cursor: pointer; }
-        .message { color: green; }
-    </style>
-</head>
-<body>
-    <h1>Lisää tapahtuma</h1>
-    <a href="index.php">Takaisin kotiin</a>
-    <br><br>
-    <?php if ($message) echo "<p class='message'>$message</p>"; ?>
-    <form method="post">
-        <label>Päivämäärä:</label>
-        <input type="date" name="date" required>
+    <?php if ($message): ?>
+    <div class="alert alert--success" role="status"><?= e($message) ?></div>
+    <?php endif; ?>
 
-        <label>Tyyppi:</label>
-        <select name="type" required>
-            <option value="income">Tulo</option>
-            <option value="expense">Meno</option>
-        </select>
+    <section class="panel" aria-labelledby="form-heading">
+        <h2 id="form-heading">Uusi tapahtuma</h2>
+        <form method="post" class="form-grid">
+            <div class="field">
+                <label for="date">Päivämäärä</label>
+                <input type="date" id="date" name="date" required>
+            </div>
 
-        <label>Kategoria:</label>
-        <select name="category" required>
-            <option value="income">Tulo</option>
-            <option value="general_expense">Yleinen meno</option>
-            <option value="travel">Matkalasku</option>
-            <option value="phone_data">Puhelin ja tietoliikenne</option>
-        </select>
+            <div class="field">
+                <label for="type">Tyyppi</label>
+                <select id="type" name="type" required>
+                    <?php foreach (TYPE_LABELS as $value => $label): ?>
+                    <option value="<?= e($value) ?>"><?= e($label) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-        <label>Kuvaus:</label>
-        <input type="text" name="description" required>
+            <div class="field">
+                <label for="category">Kategoria</label>
+                <select id="category" name="category" required>
+                    <?php foreach (CATEGORY_LABELS as $value => $label): ?>
+                    <option value="<?= e($value) ?>"><?= e($label) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-        <label>Summa (€):</label>
-        <input type="number" step="0.01" name="amount" required>
+            <div class="field">
+                <label for="amount">Summa (€)</label>
+                <input type="number" step="0.01" id="amount" name="amount" required>
+            </div>
 
-        <label>ALV-prosentti:</label>
-        <input type="number" step="0.01" name="vat_rate" value="24">
+            <div class="field field--wide">
+                <label for="description">Kuvaus</label>
+                <input type="text" id="description" name="description" required>
+            </div>
 
-        <button type="submit">Lisää tapahtuma</button>
-    </form>
-</body>
-</html>
+            <div class="field">
+                <label for="vat_rate">ALV-prosentti</label>
+                <input type="number" step="0.01" id="vat_rate" name="vat_rate" value="24">
+            </div>
+
+            <div class="form-actions field--wide">
+                <button type="submit" class="btn">Tallenna</button>
+            </div>
+        </form>
+    </section>
+<?php
+render_footer();

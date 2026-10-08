@@ -1,52 +1,63 @@
 <?php
 require 'config.php';
-?>
-<!DOCTYPE html>
-<html lang="fi">
-<head>
-    <meta charset="UTF-8">
-    <title>Pienyrityksen Taloushallinto</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        nav { margin-bottom: 20px; }
-        nav a { margin-right: 15px; text-decoration: none; padding: 5px 10px; background: #f0f0f0; }
-        table { border-collapse: collapse; width: 100%; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-    </style>
-</head>
-<body>
-    <h1>Pienyrityksen Taloushallinto</h1>
-    <nav>
-        <a href="index.php">Koti</a>
-        <a href="add_transaction.php">Lisää tapahtuma</a>
-        <a href="reports.php">Raportit</a>
-        <a href="tax_reports.php">Veroilmoitukset</a>
-    </nav>
+require __DIR__ . '/lib/layout.php';
 
-    <h2>Viimeisimmät tapahtumat</h2>
-    <table>
-        <tr>
-            <th>Päivämäärä</th>
-            <th>Tyyppi</th>
-            <th>Kategoria</th>
-            <th>Kuvaus</th>
-            <th>Summa</th>
-            <th>ALV</th>
-        </tr>
+// Yhteenvetokortit (wireframe: Koti)
+$summary = $pdo->query(
+    "SELECT
+        COALESCE(SUM(CASE WHEN type='income'  THEN amount END), 0)     AS total_income,
+        COALESCE(SUM(CASE WHEN type='expense' THEN amount END), 0)     AS total_expense,
+        COALESCE(SUM(CASE WHEN type='income'  THEN vat_amount END), 0) AS vat_payable,
+        COALESCE(SUM(CASE WHEN type='expense' THEN vat_amount END), 0) AS vat_deductible
+     FROM transactions"
+)->fetch(PDO::FETCH_ASSOC);
+$vat_balance = $summary['vat_payable'] - $summary['vat_deductible'];
+
+// Viimeisimmät tapahtumat
+$transactions = $pdo->query("SELECT * FROM transactions ORDER BY date DESC LIMIT 10")->fetchAll(PDO::FETCH_ASSOC);
+
+render_header('Koti', 'home');
+?>
+    <section class="cards" aria-label="Yhteenveto">
         <?php
-        $stmt = $pdo->query("SELECT * FROM transactions ORDER BY date DESC LIMIT 10");
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            echo "<tr>";
-            echo "<td>" . $row['date'] . "</td>";
-            echo "<td>" . ($row['type'] == 'income' ? 'Tulo' : 'Meno') . "</td>";
-            echo "<td>" . ucfirst(str_replace('_', ' ', $row['category'])) . "</td>";
-            echo "<td>" . $row['description'] . "</td>";
-            echo "<td>" . number_format($row['amount'], 2) . " €</td>";
-            echo "<td>" . number_format($row['vat_amount'], 2) . " €</td>";
-            echo "</tr>";
-        }
+        render_stat_card('Kokonais tulot', format_eur($summary['total_income']));
+        render_stat_card('Kokonais menot', format_eur($summary['total_expense']));
+        render_stat_card('ALV-saldo', format_eur($vat_balance), $vat_balance < 0 ? 'negative' : '');
         ?>
-    </table>
-</body>
-</html>
+    </section>
+
+    <section class="panel" aria-labelledby="recent-heading">
+        <h2 id="recent-heading">Viimeisimmät tapahtumat</h2>
+        <?php if (!$transactions): ?>
+            <p class="muted">Ei tapahtumia vielä. <a href="add_transaction.php">Lisää ensimmäinen tapahtuma</a>.</p>
+        <?php else: ?>
+        <div class="table-wrap">
+            <table class="data">
+                <thead>
+                    <tr>
+                        <th scope="col">Päivämäärä</th>
+                        <th scope="col">Tyyppi</th>
+                        <th scope="col">Kategoria</th>
+                        <th scope="col">Kuvaus</th>
+                        <th scope="col" class="num">Summa</th>
+                        <th scope="col" class="num">ALV</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($transactions as $row): ?>
+                    <tr>
+                        <td><?= e(format_date($row['date'])) ?></td>
+                        <td><span class="badge badge--<?= e($row['type']) ?>"><?= e(TYPE_LABELS[$row['type']] ?? $row['type']) ?></span></td>
+                        <td><?= e(CATEGORY_LABELS[$row['category']] ?? $row['category']) ?></td>
+                        <td><?= e($row['description']) ?></td>
+                        <td class="num"><?= e(format_eur($row['amount'])) ?></td>
+                        <td class="num"><?= e(format_eur($row['vat_amount'])) ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <?php endif; ?>
+    </section>
+<?php
+render_footer();
