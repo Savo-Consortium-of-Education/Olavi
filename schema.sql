@@ -28,3 +28,27 @@ INSERT INTO transactions (date, type, category, description, amount, vat_rate, v
 ('2023-03-12', 'expense', 'general_expense', 'Software licenses', 150.00, 24.00, 36.00),
 ('2023-04-01', 'expense', 'travel', 'Client meeting expenses', 80.00, 0.00, 0.00),
 ('2023-04-15', 'expense', 'phone_data', 'Internet bill', 40.00, 24.00, 9.60);
+
+-- Käyttäjätilit (kirjautuminen ja roolit). Salasanat tallennetaan vain bcrypt-tiivisteenä (password_hash).
+-- Tunnuksia ei luoda tässä tiedostossa: ensimmäinen omistaja luodaan komentoriviltä (ks. README.md).
+-- Jos tietokanta on jo olemassa, aja sama rakenne tiedostosta migrations/001_add_authentication.sql.
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    display_name VARCHAR(100) NOT NULL,
+    role ENUM('owner', 'accountant') NOT NULL DEFAULT 'accountant',
+    password_hash VARCHAR(255) NOT NULL,
+    is_active TINYINT(1) NOT NULL DEFAULT 1,
+    session_version INT NOT NULL DEFAULT 1, -- kasvaa salasanan vaihdossa: tilin vanhat istunnot lakkaavat toimimasta
+    last_login_at TIMESTAMP NULL DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Epäonnistuneet kirjautumisyritykset (yritysmäärän rajoitus)
+CREATE TABLE login_attempts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(64) NOT NULL,
+    ip_address VARCHAR(45) NOT NULL,
+    attempted_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_attempts_ip_time (ip_address, attempted_at)
+);

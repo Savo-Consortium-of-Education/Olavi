@@ -1,6 +1,6 @@
 <?php
-require 'config.php';
-require __DIR__ . '/lib/layout.php';
+require __DIR__ . '/lib/bootstrap.php';
+require_permission('view');
 
 // Yhteenvetokortit (wireframe: Koti)
 $summary = $pdo->query(

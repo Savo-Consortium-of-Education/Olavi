@@ -310,6 +310,7 @@ main {
     display: inline-block;
     padding: 0.1rem 0.65rem;
     border-radius: 999px;
+    white-space: nowrap;
     font-size: 0.8125rem;
     font-weight: 600;
 }
@@ -439,6 +440,97 @@ textarea:focus {
     border-top: 1px solid var(--border);
 }
 
+/* --- Käyttäjävalikko, kirjautuminen ja käyttäjähallinta ------------------- */
+.user-menu {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    margin-left: auto;
+}
+
+.user-name {
+    color: var(--heading);
+    font-weight: 600;
+}
+
+.user-menu a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: 0.25rem;
+}
+
+.inline-form {
+    margin: 0;
+}
+
+.badge--role {
+    background: var(--card-bg);
+    color: var(--label);
+}
+
+.badge--active {
+    background: var(--success-bg);
+    color: var(--success);
+}
+
+.badge--inactive {
+    background: var(--danger-bg);
+    color: var(--danger);
+}
+
+.user-cell {
+    display: grid;
+    gap: 0.1rem;
+}
+
+.user-cell__name {
+    font-weight: 600;
+}
+
+.user-cell__login {
+    color: var(--muted);
+    font-size: 0.875rem;
+}
+
+.auth-card {
+    max-width: 28rem;
+    margin-inline: auto;
+}
+
+.form-stack {
+    display: grid;
+    gap: 1rem;
+}
+
+.form-hint {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+}
+
+.check {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    cursor: pointer;
+}
+
+.check input[type="checkbox"] {
+    flex: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    min-height: 0;
+    accent-color: var(--brand);
+}
+
+.alert-list {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
 /* ==========================================================================
    Responsiivisuus (puhelin- ja kapeat tablettinäytöt)
    Yllä olevat tyylit muodostavat työpöytäasettelun. Tässä osiossa asettelu mukautetaan
@@ -493,6 +585,22 @@ textarea {
     .main-nav a {
         padding-inline: 0.5rem;
         text-align: center;
+    }
+
+    /* Käyttäjävalikko omalle rivilleen logon alle. */
+    .user-menu {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    /* Nimi ja rooli omalle rivilleen; Oma tili -linkki ja Kirjaudu ulos -painike jäävät vierekkäin sen alle. */
+    .user-name {
+        flex: 1 1 100%;
+    }
+
+    /* Pariton viimeinen valikkokohta (esim. Käyttäjät) täyttää koko rivin. */
+    .main-nav li:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
     }
 
     /* Lomake yhteen sarakkeeseen ja painikkeet koko leveydelle. */

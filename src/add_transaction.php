@@ -1,10 +1,12 @@
 <?php
-require 'config.php';
-require __DIR__ . '/lib/layout.php';
+require __DIR__ . '/lib/bootstrap.php';
+require_permission('add_transaction');
 
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    csrf_verify();
+
     $date = $_POST['date'];
     $type = $_POST['type'];
     $category = $_POST['category'];
@@ -28,6 +30,7 @@ render_header('Lisää tapahtuma', 'add');
     <section class="panel" aria-labelledby="form-heading">
         <h2 id="form-heading">Uusi tapahtuma</h2>
         <form method="post" class="form-grid">
+            <?= csrf_field() ?>
             <div class="field">
                 <label for="date">Päivämäärä</label>
                 <input type="date" id="date" name="date" required>

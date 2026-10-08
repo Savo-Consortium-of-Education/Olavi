@@ -1,10 +1,12 @@
 <?php
-require 'config.php';
-require __DIR__ . '/lib/layout.php';
+require __DIR__ . '/lib/bootstrap.php';
+require_permission('view');
 
 $message = '';
 
 if (isset($_GET['export'])) {
+    require_permission('export');
+
     $type = $_GET['export'];
     $filename = ($type == 'vat') ? 'alv_ilmoitus.csv' : 'veroilmoitus.csv';
 
@@ -75,6 +77,7 @@ render_header('Veroilmoitukset', 'tax');
         </div>
     </section>
 
+    <?php if (user_can('export')): ?>
     <section class="panel" aria-labelledby="export-heading">
         <h2 id="export-heading">CSV-viennit</h2>
         <p class="muted">Lataa tapahtumat CSV-tiedostona verottajalle toimitettavaksi.</p>
@@ -83,5 +86,6 @@ render_header('Veroilmoitukset', 'tax');
             <a class="btn" href="?export=tax">Vie veroilmoitus CSV:ään</a>
         </div>
     </section>
+    <?php endif; ?>
 <?php
 render_footer();

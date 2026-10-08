@@ -1,6 +1,6 @@
 <?php
-require 'config.php';
-require __DIR__ . '/lib/layout.php';
+require __DIR__ . '/lib/bootstrap.php';
+require_permission('view');
 
 // Profitability
 $stmt = $pdo->query("SELECT SUM(CASE WHEN type='income' THEN amount ELSE 0 END) as total_income, SUM(CASE WHEN type='expense' THEN amount ELSE 0 END) as total_expense FROM transactions");
