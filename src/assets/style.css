@@ -438,3 +438,131 @@ textarea:focus {
     font-size: 0.875rem;
     border-top: 1px solid var(--border);
 }
+
+/* ==========================================================================
+   Responsiivisuus (puhelin- ja kapeat tablettinäytöt)
+   Yllä olevat tyylit muodostavat työpöytäasettelun. Tässä osiossa asettelu mukautetaan
+   pienemmille näytöille media queryillä. Katkaisukohdat on annettu em-yksiköissä, jolloin
+   ne mukautuvat myös käyttäjän selaimen tekstikokoasetukseen:
+     45em (~720 px)  puhelin ja kapea ikkuna: navigaatio ruudukkoon, lomake yhteen
+                     sarakkeeseen ja taulukko korttilistaksi (taulukko tarvitsee noin
+                     590 px, joten tätä leveämmällä näytöllä se mahtuu sellaisenaan)
+     21em (~336 px)  erittäin kapea näyttö (esim. iPhone SE 1. sukupolvi, taittuvan puhelimen
+                     kansinäyttö): korttilistassa sarakkeen nimi on arvon yläpuolella
+   Viewport-metatieto (width=device-width) on määritelty sivupohjassa, src/lib/layout.php.
+   ========================================================================== */
+
+/* Kosketuskohteen vähimmäiskorkeus on noin 44 px (WCAG 2.5.5 -suositus). min-width: 0 estää
+   kenttiä venyttämästä lomakeruudukkoa (esim. date-kenttä joillakin mobiiliselaimilla). */
+input,
+select,
+textarea {
+    min-width: 0;
+    min-height: 2.75rem;
+}
+
+/* Pitkä sana ilman välilyöntejä (esim. kuvaus) ei saa venyttää sivua näyttöä leveämmäksi.
+   Katkaisu sallitaan vain soluissa, joissa tekstiä voi olla paljon (cell-wrap): muuten taulukko
+   katkoisi myös päivämääriä ja tyyppimerkkejä, koska overflow-wrap periytyy sisältöön. */
+.cell-wrap,
+.alert {
+    overflow-wrap: anywhere;
+}
+
+/* Kortin rivin arvo siirtyy nimen alle, jos ne eivät mahdu samalle riville. */
+.card-details div {
+    flex-wrap: wrap;
+}
+
+.card-details dd {
+    margin-left: auto;
+}
+
+@media (max-width: 45em) {
+    .panel {
+        padding: 1rem;
+    }
+
+    /* Navigaatio: linkit tasaleveään ruudukkoon, jossa on enintään kaksi saraketta (kapeimmalla
+       näytöllä yksi), jolloin jokainen kohde on helppo painaa eikä rivitys jää epätasaiseksi. */
+    .main-nav ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(max(9rem, calc(50% - 0.5rem)), 1fr));
+    }
+
+    .main-nav a {
+        padding-inline: 0.5rem;
+        text-align: center;
+    }
+
+    /* Lomake yhteen sarakkeeseen ja painikkeet koko leveydelle. */
+    .form-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .form-actions .btn,
+    .button-row .btn {
+        flex: 1 1 100%;
+    }
+
+    /* Taulukko -> korttilista (vain taulukot, joilla on luokka data--stack): jokainen rivi on oma
+       korttinsa, ja jokaisen solun eteen tulee sarakkeen nimi data-label-attribuutista. */
+    .data--stack,
+    .data--stack tbody,
+    .data--stack tr,
+    .data--stack td {
+        display: block;
+    }
+
+    /* Otsikkorivi piilotetaan vain visuaalisesti, jotta sarakkeiden nimet jäävät apuvälineiden luettaviksi. */
+    .data--stack thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    .data--stack tr {
+        margin-bottom: 0.75rem;
+        padding: 0.25rem 0.9rem;
+        background: var(--surface-alt);
+        border: 1px solid var(--border-soft);
+        border-radius: var(--radius-sm);
+    }
+
+    .data--stack td {
+        display: grid;
+        grid-template-columns: minmax(6.5rem, min(38%, 10rem)) minmax(0, 1fr);
+        align-items: baseline;
+        gap: 0 1rem;
+        padding: 0.5rem 0;
+    }
+
+    .data--stack td:last-child {
+        border-bottom: 0;
+    }
+
+    .data--stack td::before {
+        content: attr(data-label);
+        color: var(--label);
+        font-size: 0.875rem;
+        font-weight: 600;
+    }
+
+    .data--stack td > * {
+        justify-self: start;
+    }
+
+    .data--stack .num {
+        text-align: left;
+    }
+}
+
+/* Erittäin kapea näyttö: sarakkeen nimi arvon yläpuolelle, jotta arvolle jää koko kortin leveys. */
+@media (max-width: 21em) {
+    .data--stack td {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

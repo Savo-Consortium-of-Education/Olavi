@@ -32,26 +32,28 @@ render_header('Koti', 'home');
             <p class="muted">Ei tapahtumia vielä. <a href="add_transaction.php">Lisää ensimmäinen tapahtuma</a>.</p>
         <?php else: ?>
         <div class="table-wrap">
-            <table class="data">
+            <?php /* Pienellä näytöllä taulukko muuttuu korttilistaksi (data-label näyttää sarakkeen nimen).
+                     role-attribuutit säilyttävät taulukon merkityksen aputeknologioille, vaikka CSS vaihtaa display-arvon. */ ?>
+            <table class="data data--stack" role="table">
                 <thead>
-                    <tr>
-                        <th scope="col">Päivämäärä</th>
-                        <th scope="col">Tyyppi</th>
-                        <th scope="col">Kategoria</th>
-                        <th scope="col">Kuvaus</th>
-                        <th scope="col" class="num">Summa</th>
-                        <th scope="col" class="num">ALV</th>
+                    <tr role="row">
+                        <th scope="col" role="columnheader">Päivämäärä</th>
+                        <th scope="col" role="columnheader">Tyyppi</th>
+                        <th scope="col" role="columnheader">Kategoria</th>
+                        <th scope="col" role="columnheader">Kuvaus</th>
+                        <th scope="col" role="columnheader" class="num">Summa</th>
+                        <th scope="col" role="columnheader" class="num">ALV</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($transactions as $row): ?>
-                    <tr>
-                        <td><?= e(format_date($row['date'])) ?></td>
-                        <td><span class="badge badge--<?= e($row['type']) ?>"><?= e(TYPE_LABELS[$row['type']] ?? $row['type']) ?></span></td>
-                        <td><?= e(CATEGORY_LABELS[$row['category']] ?? $row['category']) ?></td>
-                        <td><?= e($row['description']) ?></td>
-                        <td class="num"><?= e(format_eur($row['amount'])) ?></td>
-                        <td class="num"><?= e(format_eur($row['vat_amount'])) ?></td>
+                    <tr role="row">
+                        <td role="cell" data-label="Päivämäärä"><?= e(format_date($row['date'])) ?></td>
+                        <td role="cell" data-label="Tyyppi"><span class="badge badge--<?= e($row['type']) ?>"><?= e(TYPE_LABELS[$row['type']] ?? $row['type']) ?></span></td>
+                        <td role="cell" data-label="Kategoria"><?= e(CATEGORY_LABELS[$row['category']] ?? $row['category']) ?></td>
+                        <td role="cell" class="cell-wrap" data-label="Kuvaus"><?= e($row['description']) ?></td>
+                        <td role="cell" class="num" data-label="Summa"><?= e(format_eur($row['amount'])) ?></td>
+                        <td role="cell" class="num" data-label="ALV"><?= e(format_eur($row['vat_amount'])) ?></td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>

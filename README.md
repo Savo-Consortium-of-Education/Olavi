@@ -73,6 +73,19 @@ Käyttöliittymä noudattaa `design/`-kansion logoa ja wireframea (`wireframe_al
 yhteenvetokortit ja paneelit. Tyylit on toteutettu omalla CSS:llä (`src/assets/style.css`) ilman ulkoisia kirjastoja,
 jotta sovellus toimii myös ilman verkkoyhteyttä. Värit ja muodot on johdettu logosta ja wireframesta.
 
+### Responsiivisuus
+
+Käyttöliittymä mukautuu puhelimen, tabletin ja työpöydän näyttöihin. Sivupohja (`src/lib/layout.php`) määrittelee
+`viewport`-metatiedon, ja `style.css`:n lopun media query -osio muuttaa asettelun alle 45 em (noin 720 px) leveillä
+näytöillä: navigaatio muuttuu tasaleveäksi ruudukoksi, lomakkeet yhdeksi sarakkeeksi ja tapahtumataulukko korttilistaksi.
+Erittäin kapealla näytöllä (alle 21 em, noin 336 px) sarakkeen nimi näytetään arvon yläpuolella. Navigaatiolinkit,
+painikkeet ja lomakekentät ovat vähintään 44 px korkeita, eikä sivuilla ole vaakavieritystä missään 280–1920 px leveässä
+näkymässä (tarkistettu selaimen viewport-emulaatiolla).
+
+Toisenkin taulukon saa korttilistaksi lisäämällä `<table>`-elementille luokan `data--stack` ja jokaiselle solulle
+`data-label`-attribuutin, jonka arvo on sarakkeen nimi (esimerkki: `src/index.php`). Solulle, jossa voi olla pitkiä
+välilyönnittömiä merkkijonoja (kuten kuvaus), lisätään luokka `cell-wrap`.
+
 ## Tietokannan tunnukset
 
 - **Host**: `db`
